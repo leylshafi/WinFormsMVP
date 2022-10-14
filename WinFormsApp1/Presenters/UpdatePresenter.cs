@@ -24,18 +24,22 @@ public class UpdatePresenter
     {
         StringBuilder sb = new StringBuilder();
 
-        if (!string.IsNullOrWhiteSpace(_updateView.FirstName) && _updateView.FirstName.Length < 3)
-            sb.Append("Incorrect Name\n");
+        if (_updateView.FirstName.Length < 3)
+            sb.Append($"Incorrect {nameof(_updateView.FirstName)}\n");
 
-        if (!string.IsNullOrWhiteSpace(_updateView.LastName) && _updateView.LastName.Length < 6)
-            sb.Append("Incorrect LastName\n");
+        if (_updateView.LastName.Length < 6)
+            sb.Append($"Incorrect {nameof(_updateView.LastName)}\n");
+
+        if (DateTime.Now.Year - _updateView.BirthDate.Year < 18)
+            sb.Append($"Incorrect {nameof(_updateView.BirthDate)}\n");
+
         if (sb.Length > 0)
         {
-            MessageBox.Show(sb.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(sb.ToString(), "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
-        ((Form)_updateView).DialogResult = DialogResult.OK;
+        _updateView.DialogResult = DialogResult.OK;
     }
 
 

@@ -25,22 +25,24 @@ public class AddPresenter
     {
         StringBuilder sb = new StringBuilder();
 
-        if(!string.IsNullOrWhiteSpace(_addView.FirstName) && _addView.FirstName.Length<3)
-            sb.Append("Incorrect Name\n");
+        if( _addView.FirstName.Length<3)
+            sb.Append($"Incorrect {nameof(_addView.FirstName)}\n");
 
-        if (!string.IsNullOrWhiteSpace(_addView.LastName) && _addView.LastName.Length < 6)
-            sb.Append("Incorrect LastName\n");
+        if ( _addView.LastName.Length < 6)
+            sb.Append($"Incorrect {nameof(_addView.LastName)}\n");
 
+        if(DateTime.Now.Year-_addView.BirthDate.Year<18)
+            sb.Append($"Incorrect {nameof(_addView.BirthDate)}\n");
 
         if (sb.Length > 0)
         {
-            MessageBox.Show(sb.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(sb.ToString(), "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
-        ((Form)_addView).DialogResult = DialogResult.OK;
+        _addView.DialogResult = DialogResult.OK;
     }
 
-    private void _addView_CancelEvent(object? sender, EventArgs e) => ((Form)_addView).DialogResult = DialogResult.Cancel;
+    private void _addView_CancelEvent(object? sender, EventArgs e) => _addView.DialogResult = DialogResult.Cancel;
 
 }

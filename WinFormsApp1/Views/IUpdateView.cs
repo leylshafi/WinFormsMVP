@@ -11,7 +11,10 @@ public interface IUpdateView
     string LastName { get; set; }
     decimal Score { get; set; }
     DateTime BirthDate { get; set; }
+    DialogResult DialogResult { get; set; }
 
     event EventHandler SaveEvent;
     event EventHandler CancelEvent;
+
+    DialogResult ShowDialog();
 }
