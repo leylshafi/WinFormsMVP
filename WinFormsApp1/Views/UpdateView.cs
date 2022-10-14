@@ -16,13 +16,13 @@ namespace WinFormsApp1.Views
         {
             InitializeComponent();
         }
-        public string FirstName => txt_FirstName.Text;
+        public string FirstName { get=>txt_FirstName.Text; set=> txt_FirstName.Text = value; }
 
-        public string LastName => txt_LastName.Text;
+        public string LastName { get => txt_LastName.Text; set => txt_LastName.Text = value; }
 
-        public decimal Score => ScoreNm.Value;
+        public decimal Score { get => ScoreNm.Value; set => ScoreNm.Value = value; }
 
-        public DateTime BirthDate => monthCalendar1.SelectionStart;
+        public DateTime BirthDate { get => BirthDate.Va; set => txt_FirstName.Text = value; }
 
         public event EventHandler SaveEvent;
         public event EventHandler CancelEvent;

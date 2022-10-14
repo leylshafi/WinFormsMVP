@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 namespace WinFormsApp1.Views;
 public interface IUpdateView
 {
-    string FirstName { get; }
-    string LastName { get; }
-    decimal Score { get; }
-    DateTime BirthDate { get; }
+    string FirstName { get; set; }
+    string LastName { get; set; }
+    decimal Score { get; set; }
+    DateTime BirthDate { get; set; }
 
     event EventHandler SaveEvent;
     event EventHandler CancelEvent;

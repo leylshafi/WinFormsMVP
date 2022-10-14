@@ -89,7 +89,6 @@ public class MainPresenter
         if (result == DialogResult.Cancel)
             return;
 
-
         student.FirstName = _updateView.FirstName;
         student.LastName = _updateView.LastName;
         student.BirthOfDate = DateOnly.Parse(_updateView.BirthDate.ToShortDateString());
