@@ -95,7 +95,7 @@ public class MainPresenter
         student.BirthOfDate = DateOnly.Parse(_updateView.BirthDate.ToShortDateString());
         student.Score = (float)_updateView.Score;
 
-        _bindingSource[_bindingSource.IndexOf(_bindingSource.Current)] = student;
+        _bindingSource.ResetCurrentItem();
     }
 }
 
