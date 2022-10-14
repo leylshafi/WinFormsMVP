@@ -77,9 +77,10 @@ public class MainPresenter
 
     private void _mainView_UpdateEvent(object? sender, EventArgs e)
     {
-        if (_bindingSource.Current is null)
+        var student = _bindingSource.Current as Student;
+        if (student is null)
         {
-            MessageBox.Show("Select Student To Update", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("No selected student", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
@@ -88,7 +89,6 @@ public class MainPresenter
         if (result == DialogResult.Cancel)
             return;
 
-        var student = _bindingSource.Current as Student;
 
         student.FirstName = _updateView.FirstName;
         student.LastName = _updateView.LastName;
