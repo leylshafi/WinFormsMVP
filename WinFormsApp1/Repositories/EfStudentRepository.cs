@@ -1,38 +1,49 @@
 ﻿using WinFormsApp1.Models;
+using WinFormsApp1.Repositories.Contexts;
 
 namespace WinFormsApp1.Repositories;
 
 public class EfStudentRepository : IStudentRepository
 {
-    public Student Get(Func<Student, bool> predicate)
+    private readonly MyDBContext _context;
+    public EfStudentRepository()
     {
-        throw new NotImplementedException();
+        _context = new MyDBContext();
+    }
+    public Student? Get(Func<Student, bool> predicate)
+    {
+        return _context.Students.FirstOrDefault(predicate);
     }
 
-    public Student GetById(Guid Id)
+    public Student? GetById(Guid Id)
     {
-        throw new NotImplementedException();
+        return _context.Students.Find(Id);
     }
 
-    public List<Student> GetList(Func<Student, bool>? predicate = null)
+    public List<Student>? GetList(Func<Student, bool>? predicate = null)
+    => (predicate == null) switch
     {
-        throw new NotImplementedException();
-    }
+        true => _context.Students?.ToList(),
+        false => _context.Students?.Where(predicate).ToList(),
+    };
 
 
 
     public void Add(Student entity)
     {
-        throw new NotImplementedException();
+        _context.Students?.Add(entity);
+        _context.SaveChanges();
     }
 
     public void Remove(Student entity)
     {
-        throw new NotImplementedException();
+        _context.Students?.Remove(entity);
+        _context.SaveChanges();
     }
 
     public void Update(Student entity)
     {
-        throw new NotImplementedException();
+        _context.Students?.Update(entity);
+        _context.SaveChanges();
     }
 }

@@ -43,7 +43,7 @@ public class UpdatePresenter
     }
 
 
-    private void _updateView_CancelEvent(object? sender, EventArgs e) => ((Form)_updateView).DialogResult = DialogResult.Cancel;
+    private void _updateView_CancelEvent(object? sender, EventArgs e) => _updateView.DialogResult = DialogResult.Cancel;
 
 }
 

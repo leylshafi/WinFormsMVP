@@ -11,9 +11,11 @@ namespace WinFormsApp1.Presenters;
 public class MainPresenter
 {
     private readonly BindingSource _bindingSource;
+
     private readonly IMainView _mainView;
     private readonly IAddView _addView;
     private readonly IUpdateView _updateView;
+
     private readonly IStudentRepository _repository;
 
     public MainPresenter(IMainView mainView, IAddView addView, IUpdateView updateView, IStudentRepository repository)
@@ -25,7 +27,6 @@ public class MainPresenter
 
 
         _bindingSource = new();
-
         _bindingSource.DataSource = _repository.GetList();
         _mainView.SetStudentListBindingSource(_bindingSource);
 
@@ -41,23 +42,29 @@ public class MainPresenter
     private void _mainView_SearchEvent(object? sender, EventArgs e)
     {
         var searchValue = _mainView.SearchValue;
+        bool IsNullOrWhiteSpace=string.IsNullOrWhiteSpace(searchValue);
 
-        if (!string.IsNullOrWhiteSpace(searchValue))
-            _bindingSource.DataSource = _repository.GetList().Where(s => s.FirstName.ToLower().Contains(searchValue.ToLower()) || s.LastName.ToLower().Contains(searchValue.ToLower())).ToList();
-        else
-            _bindingSource.DataSource = _repository.GetList();
+        _bindingSource.DataSource=IsNullOrWhiteSpace switch
+        {
+            true=>_repository.GetList(),
+            false=>_repository.GetList(s =>
+            s.FirstName.Contains(searchValue, StringComparison.OrdinalIgnoreCase)
+            ||
+            s.LastName.Contains(searchValue, StringComparison.OrdinalIgnoreCase)),
+        };
     }
 
     private void _mainView_DeleteEvent(object? sender, EventArgs e)
     {
-        if (_bindingSource.Current is null)
+        var deletedItem = _bindingSource.Current as Student;
+        if (deletedItem is null)
         {
             MessageBox.Show("An error occured", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             return;
         }
-
-        _bindingSource.Remove(_bindingSource.Current);
+        _repository.Remove(deletedItem);
+        _bindingSource.Remove(deletedItem);
         MessageBox.Show("Successfully deleted", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
@@ -76,6 +83,7 @@ public class MainPresenter
             Score = (float)_addView.Score
         };
 
+        _repository.Add(student);
         _bindingSource.Add(student);
         MessageBox.Show("Successfully added", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
@@ -104,6 +112,7 @@ public class MainPresenter
         student.BirthOfDate = _updateView.BirthDate;
         student.Score = (float)_updateView.Score;
 
+        _repository.Update(student);
         _bindingSource.ResetCurrentItem();
         MessageBox.Show("Successfully updated", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }

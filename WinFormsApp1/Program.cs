@@ -10,14 +10,15 @@ namespace WinFormsApp1
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-
-            IMainView mainView = new MainView();
             IAddView addView = new AddView();
             IUpdateView updateView = new UpdateView();
-            IStudentRepository repository= new EfStudentRepository();
 
             new AddPresenter(addView);
             new UpdatePresenter(updateView);
+
+            IStudentRepository repository= new EfStudentRepository();
+            IMainView mainView = new MainView();
+            new MainPresenter(mainView, addView, updateView, repository);
 
             Application.Run((Form)mainView);
         }
